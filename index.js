@@ -1,11 +1,12 @@
 const express = require('express');
 const path = require('path');
+
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
-// Servir archivos estáticos desde la raíz (igual que Fixia)
-app.use(express.static(__dirname));
+// Servir la aplicación estática
+app.use(express.static(path.join(__dirname)));
 
-app.listen(port, () => {
-  console.log(`Dealia escuchando en el puerto ${port}`);
+app.listen(PORT, () => {
+    console.log(`Dealia está funcionando en el puerto ${PORT}`);
 });
