@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dealia - Cazador de Chollos</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 h-screen flex flex-col overflow-hidden">
+
+    <!-- TOP BAR -->
+    <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-4 z-20 shrink-0 shadow-xs">
+        <div class="flex items-center space-x-3">
+            <button id="menu-btn" class="w-10 h-10 rounded-xl hover:bg-slate-100 flex items-center justify-center text-slate-600 transition-colors">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+            <div class="flex items-center space-x-2">
+                <div class="w-9 h-9 bg-rose-500 rounded-xl flex items-center justify-center text-white font-bold shadow-md shadow-rose-500/20">
+                    <i class="fa-solid fa-tag text-sm"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight text-slate-900">Dealia</span>
+            </div>
+        </div>
+        <div class="flex items-center space-x-2">
+            <span class="text-xs bg-rose-50 text-rose-600 font-semibold px-2.5 py-1 rounded-full border border-rose-100">v1.0.0</span>
+        </div>
+    </header>
+
+    <div class="flex flex-1 relative overflow-hidden">
+        
+        <!-- SIDEBAR LATERAL -->
+        <div id="sidebar" class="absolute inset-y-0 left-0 w-72 bg-white border-r border-slate-200 shadow-xl z-30 transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+            <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-rose-500 rounded-xl flex items-center justify-center text-white font-bold shadow-md shadow-rose-500/20">
+                        <i class="fa-solid fa-tag"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-slate-900">Menú Dealia</h2>
+                        <p class="text-xs text-slate-500">Tu asistente de compras</p>
+                    </div>
+                </div>
+                <button id="close-menu" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <nav class="flex-1 p-4 space-y-1.5 overflow-y-auto">
+                <button onclick="switchView('home')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-rose-50 hover:text-rose-600 font-medium transition-all">
+                    <i class="fa-solid fa-house w-5 text-center"></i>
+                    <span>Inicio</span>
+                </button>
+                <button onclick="switchView('chat')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-rose-50 hover:text-rose-600 font-medium transition-all">
+                    <i class="fa-solid fa-camera-retro w-5 text-center"></i>
+                    <span>Tasador IA (¿Es chollo?)</span>
+                </button>
+                <button onclick="switchView('search')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-rose-50 hover:text-rose-600 font-medium transition-all">
+                    <i class="fa-solid fa-magnifying-glass-dollar w-5 text-center"></i>
+                    <span>Buscador Multi-Web</span>
+                </button>
+            </nav>
+
+            <div class="p-4 border-t border-slate-100">
+                <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
+                    <p class="text-xs font-semibold text-slate-700">💡 Consejo Dealia</p>
+                    <p class="text-xs text-slate-500 mt-1">Sube foto de lo que te venden para saber si el precio merece la pena al instante.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- OVERLAY DEL MENÚ -->
+        <div id="overlay" class="absolute inset-0 bg-slate-900/20 backdrop-blur-xs z-20 hidden transition-opacity"></div>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="flex-1 flex flex-col overflow-hidden bg-slate-50">
+            
+            <!-- VISTA 1: HOME -->
+            <div id="view-home" class="view-container flex-1 p-6 overflow-y-auto max-w-4xl mx-auto w-full flex flex-col justify-center items-center text-center">
+                <div class="w-16 h-16 bg-rose-100 text-rose-600 rounded-3xl flex items-center justify-center text-3xl mb-6 shadow-inner">
+                    <i class="fa-solid fa-fire"></i>
+                </div>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">¡Bienvenido a Dealia!</h1>
+                <p class="text-slate-500 mt-2 max-w-md">Tu aplicación inteligente para cazar chollos, tasar artículos de segunda mano y comparar precios al instante.</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 w-full max-w-lg">
+                    <button onclick="switchView('chat')" class="p-5 bg-white border border-slate-200 hover:border-rose-300 rounded-2xl shadow-xs hover:shadow-md transition-all text-left group">
+                        <div class="w-10 h-10 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-camera"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900">Tasador IA</h3>
+                        <p class="text-xs text-slate-500 mt-1">Sube foto y dime si te timan o es ganga.</p>
+                    </button>
+                    <button onclick="switchView('search')" class="p-5 bg-white border border-slate-200 hover:border-rose-300 rounded-2xl shadow-xs hover:shadow-md transition-all text-left group">
+                        <div class="w-10 h-10 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900">Buscador Web</h3>
+                        <p class="text-xs text-slate-500 mt-1">Busca en Wallapop, Amazon y más.</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- VISTA 2: CHAT / TASADOR IA -->
+            <div id="view-chat" class="view-container flex-1 hidden flex flex-col h-full max-w-3xl mx-auto w-full bg-white shadow-sm border-x border-slate-200">
+                <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-white shrink-0">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-9 h-9 bg-rose-100 text-rose-600 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-robot text-sm"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-bold text-slate-900 text-sm">Asistente Tasador Dealia</h2>
+                            <p class="text-xs text-emerald-600 font-medium">● IA Activa</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mensajes del Chat -->
+                <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-4 bg-slate-50/50">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center shrink-0 text-xs font-bold">AI</div>
+                        <div class="bg-white border border-slate-200 p-3.5 rounded-2xl rounded-tl-xs shadow-xs max-w-md text-sm text-slate-700">
+                            ¡Hola! Sube una foto del artículo que te ofrecen o que quieres vender, escribe el precio que te piden (ej: <i>"¿Vale la pena por 30€?"</i>) y te diré si es un chollazo o si están pidiendo demasiado.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview de imagen seleccionada -->
+                <div id="image-preview-container" class="px-4 py-2 bg-white border-t border-slate-100 hidden flex items-center space-x-3">
+                    <img id="img-preview" src="" alt="Preview" class="w-12 h-12 object-cover rounded-lg border border-slate-200">
+                    <div class="flex-1">
+                        <p class="text-xs font-semibold text-slate-700">Imagen adjuntada</p>
+                        <p class="text-xs text-slate-400">Lista para analizar</p>
+                    </div>
+                    <button onclick="removeImage()" class="text-slate-400 hover:text-rose-500 text-xs font-medium"><i class="fa-solid fa-trash"></i> Quitar</button>
+                </div>
+
+                <!-- Input Chat -->
+                <div class="p-4 bg-white border-t border-slate-200 shrink-0">
+                    <form id="chat-form" onsubmit="handleChatSubmit(event)" class="flex items-center space-x-2">
+                        <label class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center cursor-pointer transition-colors shrink-0">
+                            <i class="fa-solid fa-camera"></i>
+                            <input type="file" id="chat-file-input" accept="image/*" class="hidden" onchange="previewImage(event)">
+                        </label>
+                        <input type="text" id="chat-input" placeholder="Ej: Me lo venden por 25€, ¿lo compro?" class="flex-1 bg-slate-100 border-none rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/20 text-slate-800">
+                        <button type="submit" class="w-10 h-10 rounded-xl bg-rose-500 hover:bg-rose-600 text-white flex items-center justify-center transition-colors shadow-md shadow-rose-500/20 shrink-0">
+                            <i class="fa-solid fa-paper-plane text-xs"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- VISTA 3: BUSCADOR MULTI-WEB -->
+            <div id="view-search" class="view-container flex-1 hidden flex flex-col max-w-3xl mx-auto w-full p-6 overflow-y-auto">
+                <h2 class="text-2xl font-bold text-slate-900">Buscador Multi-Plataforma</h2>
+                <p class="text-xs text-slate-500 mt-1">Busca el mejor precio en Wallapop, Amazon y tiendas de segunda mano.</p>
+
+                <div class="mt-6 flex space-x-2">
+                    <div class="relative flex-1">
+                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                            <i class="fa-solid fa-search"></i>
+                        </span>
+                        <input type="text" id="search-query" placeholder="Ej: iPhone 13, Bicicleta plegable, Nintendo Switch..." class="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/20 shadow-xs">
+                    </div>
+                    <button onclick="performSearch()" class="bg-rose-500 hover:bg-rose-600 text-white font-semibold px-6 py-3 rounded-xl text-sm transition-colors shadow-md shadow-rose-500/20">
+                        Buscar
+                    </button>
+                </div>
+
+                <div id="search-results" class="mt-6 space-y-3">
+                    <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-xs flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-rose-50 rounded-xl flex items-center justify-center text-rose-500 font-bold text-lg shrink-0">
+                                <i class="fa-solid fa-tag"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-sm">Ejemplo: iPhone 13 128GB</h4>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs bg-emerald-50 text-emerald-600 font-semibold px-2 py-1 rounded-md border border-emerald-100">Wallapop</span>
+                            <p class="font-bold text-slate-900 mt-1">320,00 €</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- SCRIPT DE INTERACTIVIDAD -->
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const closeMenu = document.getElementById('close-menu');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        function toggleMenu() {
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+        closeMenu.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+
+        function switchView(viewId) {
+            document.querySelectorAll('.view-container').forEach(el => el.classList.add('hidden'));
+            document.getElementById('view-' + viewId).classList.remove('hidden');
+            if (window.innerWidth < 768) {
+                toggleMenu();
+            }
+        }
+
+        let uploadedImageBase64 = null;
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImageBase64 = e.target.result;
+                    document.getElementById('img-preview').src = uploadedImageBase64;
+                    document.getElementById('image-preview-container').classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeImage() {
+            uploadedImageBase64 = null;
+            document.getElementById('chat-file-input').value = '';
+            document.getElementById('image-preview-container').classList.add('hidden');
+        }
+
+        function handleChatSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text && !uploadedImageBase64) return;
+
+            const chatMessages = document.getElementById('chat-messages');
+
+            let userHtml = `<div class="flex items-start justify-end space-x-3">
+                <div class="bg-rose-500 text-white p-3.5 rounded-2xl rounded-tr-xs shadow-xs max-w-md text-sm">`;
+            if (uploadedImageBase64) {
+                userHtml += `<img src="${uploadedImageBase64}" class="w-32 h-32 object-cover rounded-lg mb-2">`;
+            }
+            userHtml += `${text || '¿Qué opinas de esto?'}</div>
+                <div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center shrink-0 text-xs font-bold">Tú</div>
+            </div>`;
+            chatMessages.insertAdjacentHTML('beforeend', userHtml);
+            
+            const currentImg = uploadedImageBase64;
+            input.value = '';
+            removeImage();
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            setTimeout(() => {
+                let aiResponse = "¡Analizado! Basándome en los precios de mercado actuales, este artículo suele venderse entre un 20% y un 30% más caro. Si te lo dejan a ese precio, **es un buen chollo**. Te recomiendo revisar bien que funcione correctamente antes de cerrar el trato.";
+                if (currentImg) {
+                    aiResponse = "He analizado la foto. El estado exterior se ve bastante bien. Teniendo en cuenta la cotización actual en plataformas de segunda mano, es un precio justo y competitivo. **¡Adelante con la compra!**";
+                }
+                
+                const aiHtml = `<div class="flex items-start space-x-3">
+                    <div class="w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center shrink-0 text-xs font-bold">AI</div>
+                    <div class="bg-white border border-slate-200 p-3.5 rounded-2xl rounded-tl-xs shadow-xs max-w-md text-sm text-slate-700">
+                        ${aiResponse}
+                    </div>
+                </div>`;
+                chatMessages.insertAdjacentHTML('beforeend', aiHtml);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+        }
+
+        function performSearch() {
+            const query = document.getElementById('search-query').value.trim();
+            if (!query) return;
+
+            const resultsContainer = document.getElementById('search-results');
+            resultsContainer.innerHTML = `
+                <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-xs flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-rose-50 rounded-xl flex items-center justify-center text-rose-500 font-bold text-lg shrink-0">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">${query} (Wallapop)</h4>
+                            <p class="text-xs text-slate-500">Excelente estado • Cerca de ti</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs bg-emerald-50 text-emerald-600 font-semibold px-2 py-1 rounded-md border border-emerald-100">Wallapop</span>
+                        <p class="font-bold text-slate-900 mt-1">45,00 €</p>
+                    </div>
+                </div>
+                <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-xs flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center text-amber-500 font-bold text-lg shrink-0">
+                            <i class="fa-brands fa-amazon"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">${query} (Nuevo)</h4>
+                            <p class="text-xs text-slate-500">Envío Prime gratis</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2 py-1 rounded-md border border-amber-100">Amazon</span>
+                        <p class="font-bold text-slate-900 mt-1">69,99 €</p>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
